@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools", "wheel", "cython", "numpy", "scipy"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "HORAYZON"
+version = "0.1.2"
+authors = [
+    {name="Christian R. Steger", email="christian.steger@env.ethz.ch"},
+    {name="Benjamin Steger"},
+    {name="Christoph Schär"}
+]
+description = "Package to efficiently compute terrain parameters (like horizon, sky view factor, topographic openness, slope angle/aspect) from high-resolution digital elevation model (DEM) data."
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Private :: Do Not Upload"
+]
+
+dependencies = ["cython", "numpy", "scipy", "geographiclib", "tqdm", "requests", "xarray"]
+
+[project.optional-dependencies]
+basic-examples = ["netcdf4", "matplotlib", "pillow", "skyfield", "pyproj", "ipython"]
+complex-examples = ["horayzon[basic-examples]", "shapely", "fiona", "pygeos", "scikit-image", "rasterio", "trimesh"]
+
+[project.urls]
+Homepage = "https://github.com/ChristianSteger/HORAYZON"
+Issues = "https://github.com/ChristianSteger/HORAYZON/issues"
