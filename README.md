@@ -130,8 +130,7 @@ The setup file **setup_manual.py** must then be adapted to specify the **include
 Finally, the HORAYZON package can be installed with:
 
 ```bash
-mv setup_manual.py setup.py
-python -m pip install .
+python setup.py build_ext --inplace --include-dirs=/opt/intel/oneapi/embree/3.13.5/include/:/opt/intel/oneapi/tbb/2021.8.0/include/ --library-dirs=/opt/intel/oneapi/embree/3.13.5/lib/libembree3.so:/opt/intel/oneapi/tbb/2021.8.0/lib/intel64/gcc4.8/libtbb.so
 ```
 
 # Usage
