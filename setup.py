@@ -32,19 +32,23 @@ compiler = "default"  # (like gcc, clang, clang++, default)
 # -----------------------------------------------------------------------------
 # Operating system dependent settings
 # -----------------------------------------------------------------------------
+lib_end: str
+openmp_flag: str
 
 if sys.platform in ["linux", "linux2"]:
     print("Operating system: Linux")
     lib_end = ".so"
+    openmp_flag = "-fopenmp"
     extra_compile_args_cpp = ["-O3"]
-    extra_compile_args_cython = ["-O3", "-ffast-math", "-fopenmp"]
+    extra_compile_args_cython = ["-O3", "-ffast-math"]
     if compiler == "default" and "CONDA_PREFIX" in os.environ:
         compiler = "gcc"
 elif sys.platform in ["darwin"]:
     print("Operating system: Mac OS X")
     lib_end = ".dylib"
+    openmp_flag = "-fopenmp"
     extra_compile_args_cpp = ["-O3", "-std=c++11"]
-    extra_compile_args_cython = ["-O3", "-ffast-math", "-fopenmp"]
+    extra_compile_args_cython = ["-O3", "-ffast-math"]
     if compiler == "default" and "CONDA_PREFIX" in os.environ:
         compiler = "clang"
         extra_compile_args_cython += [
@@ -55,10 +59,13 @@ elif sys.platform in ["win32"]:
     print("Operating system: Windows")
     print("Warning: Package not yet tested for Windows")
     lib_end = ".dll"
+    openmp_flag = "/openmp"
     extra_compile_args_cpp = ["/O3"]
-    extra_compile_args_cython = ["/O3", "/fp:fast", "/openmp"]
+    extra_compile_args_cython = ["/O3", "/fp:fast"]
 else:
     raise ValueError("Unsupported operating system")
+
+extra_compile_args_cython.append(openmp_flag)
 libraries_cython = ["m", "pthread"]
 include_dirs_cpp = [np.get_include()] + path_include
 extra_objects_cpp = [i + lib_end for i in path_lib]
@@ -75,21 +82,21 @@ ext_modules = [
               ["horayzon/transform.pyx"],
               libraries=libraries_cython,
               extra_compile_args=extra_compile_args_cython,
-              extra_link_args=["-fopenmp"],
+              extra_link_args=[openmp_flag],
               define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
               include_dirs=[np.get_include()]),
     Extension("horayzon.direction",
               ["horayzon/direction.pyx"],
               libraries=libraries_cython,
               extra_compile_args=extra_compile_args_cython,
-              extra_link_args=["-fopenmp"],
+              extra_link_args=[openmp_flag],
               define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
               include_dirs=[np.get_include()]),
     Extension("horayzon.topo_param",
               ["horayzon/topo_param.pyx"],
               libraries=libraries_cython,
               extra_compile_args=extra_compile_args_cython,
-              extra_link_args=["-fopenmp"],
+              extra_link_args=[openmp_flag],
               define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
               include_dirs=[np.get_include()]),
     Extension("horayzon.horizon",
