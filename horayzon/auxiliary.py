@@ -41,6 +41,12 @@ def get_path_aux_data():
         path_aux_data = file.read()
         file.close()
 
+    if not os.path.isdir(path_aux_data):
+        if os.path.exists(path_aux_data):
+            raise FileExistsError("Auxiliary Data Path doesn't point to a directory")
+        else:
+            os.makedirs(path_aux_data, exist_ok=False)
+
     return path_aux_data
 
 

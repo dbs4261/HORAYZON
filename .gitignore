@@ -218,3 +218,6 @@ horayzon/horizon.cpp
 horayzon/shadow.cpp
 horayzon/topo_param.c
 horayzon/transform.c
+
+# Auxiliary Data Path Locator
+horayzon/path_aux_data.txt
